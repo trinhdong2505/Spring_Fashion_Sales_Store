@@ -42,7 +42,6 @@ services:
 
   spring-adam-store:
     container_name: spring-adam-store
-    image: lean2708/spring-adam-store:0.0.1
     build:
       context: ./
       dockerfile: Dockerfile
