@@ -8,7 +8,7 @@ Spring Fashion Sales Store is an e-commerce website built with Spring Boot, spec
 ## Build and Run
 **1. Clone Repository :**
 ```java
-git clone https://github.com/trinhdong2505/Spring_Fashion_Sales_Store.git
+git clone https://github.com/trinhdong2505dz/Spring_Fashion_Sales_Store.git
 cd Spring_Fashion_Sales_Store
 ```
 - Then, create and configure the **.env** file
