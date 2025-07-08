@@ -1,0 +1,33 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /adamstore
+
+spring:
+  application:
+    name: Spring_AdamStore
+  profiles:
+    active: dev
+
+
+# Max Size Upload
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
+app:
+  admin:
+    email: admin@gmail.com
+    password: 123456
+
+auth:
+  register:
+    verification-code:
+      expiration-minutes: 5
+
+  forgot-password:
+    verification-code:
+      expiration-minutes: 10
+

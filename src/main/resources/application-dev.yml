@@ -1,0 +1,118 @@
+server:
+  port: 8080
+
+
+# Profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+
+  # Database
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/adam-store}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:123456}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+
+
+
+# Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    out-of-order: true
+
+
+  # Redis
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:123456}
+
+
+# SendGrid
+  sendgrid:
+    apiKey: ${SENDGRID_API_KEY}
+    sender:
+      email: ${SENDGRID_SENDER_EMAIL}
+    template-id:
+      otp-register: ${SENDGRID_TEMPLATE_OTP_REGISTER}
+      reset-password-verification: ${SENDGRID_TEMPLATE_RESET_PASSWORD_VERIFICATION}
+
+
+# Swagger
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+open:
+  api:
+    title: ${OPEN_API_TITLE}
+    version: ${OPEN_API_VERSION}
+    description: ${OPEN_API_DESCRIPTION}
+    serverUrl: http://${SERVER_IP}:${server.port}
+    serverName: server dev
+    api-docs: backend-service
+
+
+# JWT
+jwt:
+  signer-key: ${JWT_SIGNER_KEY}
+  refresh-key: ${JWT_REFRESH_KEY}
+  reset-key: ${JWT_RESET_KEY}
+  access-token:
+    expiry-in-minutes: ${JWT_ACCESS_TOKEN_IN_MINUTES:15}
+  refresh-token:
+    expiry-in-days: ${JWT_REFRESH_TOKEN_IN_DAYS:20}
+  reset:
+    expiry-in-minutes: ${JWT_RESET_TOKEN_IN_MINUTES:15}
+
+
+# Cloudinary
+cloud:
+  name: ${CLOUDINARY_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+  folder-image: adam-store/images
+  max-size-image: 10MB
+
+
+# GHN
+ghn:
+  token: ${GHN_TOKEN}
+  base-url: ${GHN_BASE_URL}
+  shop-id: ${SHOP_ID}
+
+shipping:
+  from_district_id: ${FROM_DISTRICT_ID}
+  service_type_id: ${SERVICE_TYPE_ID}
+  weight: 20
+  length: 20
+  width: 20
+  height: 500
+
+# VNPAY
+payment:
+  vnPay:
+    url: ${VNPAY_URL}
+    tmn-code: ${VNPAY_TMN_CODE}
+    secret-key: ${VNPAY_SECRET_KEY}
+    return-url: ${VNPAY_RETURN_URL}
+    version: ${VNPAY_VERSION}
+    command: ${VNPAY_COMMAND}
+    order-type: ${VNPAY_ORDER_TYPE}
+

@@ -1,0 +1,65 @@
+
+services:
+
+  postgres-adam-store:
+    image: postgres:15
+    container_name: postgres-adam-store
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: adam-store
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - adam_store_data:/var/lib/postgresql/data
+      - ./initdb.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - '5433:5432'
+    networks:
+      - adam_store_backend
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis-adam-store
+    hostname: redis-adam-store
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=123456
+      - REDIS_DISABLE_COMMANDS=FLUSHDB;FLUSHALL
+    command: redis-server --requirepass 123456
+    networks:
+      - adam_store_backend
+
+
+  spring-adam-store:
+    container_name: spring-adam-store
+    image: lean2708/spring-adam-store:0.0.1
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - '8080:8080'
+    networks:
+      - adam_store_backend
+    depends_on:
+      postgres-adam-store:
+        condition: service_healthy
+
+networks:
+  adam_store_backend:
+    driver: bridge
+
+volumes:
+  adam_store_data:
+    driver: local
